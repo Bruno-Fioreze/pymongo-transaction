@@ -1,10 +1,38 @@
 version: '3.9'
 
 services:
-  mongodb:
+  mongo_one:
+    container_name: mongo1
     image: mongo:5.0
+    command: mongod --replSet my-mongo-set
     ports:
-      - 27017:27017
+      - 30001:27017
+    networks:
+      - my-mongo-cluster
     volumes:
       - ~/apps/mongo:/data/db
-      - ./mongod.conf.orig:/etc/mongod.conf.orig
+
+  mongo_two:
+    container_name: mongo2
+    image: mongo:5.0
+    command: mongod --replSet my-mongo-set
+    ports:
+      - 30002:27017
+    networks:
+      - my-mongo-cluster
+    volumes:
+      - ~/apps/mongo:/data/db
+  mongo_three:
+    container_name: mongo3
+    image: mongo:5.0
+    command: mongod --replSet my-mongo-set
+    ports:
+      - 30003:27017
+    networks:
+      - my-mongo-cluster
+    volumes:
+      - ~/apps/mongo:/data/db
+
+networks:
+  my-mongo-cluster: #leave it here
+

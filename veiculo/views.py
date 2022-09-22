@@ -9,13 +9,13 @@ import pymongo
 # Create your views here.
 from django.http import HttpResponse
 
-def callback(session):
+def callback(session): 
     orders = session.client.db.orders
     orders.insert_one({"sku": "abc123", "qty": 100})
     session.commit_transaction()
 
 def index(request):
-    client = pymongo.MongoClient('localhost', 27017,)
+    client = pymongo.MongoClient('172.18.0.2', 27017,)
     orders = client.db.orders
     inventory = client.db.inventory
     with client.start_session() as session:
